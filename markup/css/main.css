@@ -594,4 +594,11 @@ input[type='submit'] {
       color: purple;
       text-transform: uppercase;
       font-weight: bold; }
+  .fixed-panel .btn-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer; }
+    .fixed-panel .btn-close:hover {
+      color: #fff; }
 /*# sourceMappingURL=main.css.map */

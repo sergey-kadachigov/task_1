@@ -116,5 +116,14 @@ $media-expressions: (
       font-weight: bold;
     }
   }
+  .btn-close{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    &:hover{
+      color: #fff;
+    }
+  }
 
 }

@@ -15,7 +15,7 @@ function initOpenPanel() {
 			position: 'left',
 			holder: '.fixed-panel',
 			btn: '.panel-btn',
-			btnClose: 'btn-close',
+			btnClose: '.btn-close',
 			activeClass: 'open',
 			inactiveClass: 'close',
 			btnActiveClass: 'active'
@@ -35,6 +35,7 @@ function initOpenPanel() {
 		findElements: function () {
 			this.holder = $(this.options.holder);
 			this.btn = $(this.options.btn);
+			this.btnClose = this.holder.find(this.options.btnClose);
 			this.positionOpt = eval('(' + this.holder.attr('data-options') + ')') || {
 				x: this.options.x,
 				y: this.options.y,
@@ -43,19 +44,28 @@ function initOpenPanel() {
 			this.x = this.positionOpt.x;
 			this.y = this.positionOpt.y;
 			this.position = this.positionOpt.position;
-
 		},
 		attachEvents: function () {
 			var self = this;
 			this.btn.on('click', function (e) {
 				e.preventDefault();
 				self.panelAction($(this));
+			});
+			this.btnClose.on('click', function (e) {
+				e.preventDefault();
+				self.panelClose();
+				$(self.btn).removeClass(self.options.btnActiveClass);
+			});
+			$(window).on('click',function (e) {
+				if(self.holder.has(e.target).length === 0 && self.btn.has(e.target).length === 0 && !($(e.target).hasClass('panel-btn'))){
+					self.panelClose();
+					$(self.btn).removeClass(self.options.btnActiveClass);
+				}
 			})
 		},
 		positionPanel: function () {
 			var self = this;
 			self.holder.addClass(self.y + ' ' + self.x + ' ' + 'animate-' + self.position)
-
 		},
 		panelAction: function (item) {
 			var self = this;
@@ -89,13 +99,3 @@ function initOpenPanel() {
 		});
 	};
 }(jQuery));
-
-
-// body.on('click', function (e) {
-// 	if (self.holder.has(e.target).length === 0) {
-// 		self.panelClose();
-// 		self.btn.removeClass(self.options.btnActiveClass);
-// 	} else {
-//
-// 	}
-// });
