@@ -30,6 +30,7 @@ function initOpenPanel() {
 				this.attachEvents();
 				this.positionPanel();
 			}
+			console.log(this);
 		},
 		findElements: function () {
 			this.holder = $(this.options.holder);
@@ -47,17 +48,15 @@ function initOpenPanel() {
 		},
 		attachEvents: function () {
 			var self = this;
-			this.btn.on('click', function (e) {
+			this.btn.on('click.btn-click', function (e) {
 				e.preventDefault();
 				self.panelAction();
 			});
-			this.btnClose.on('click', function (e) {
+			this.btnClose.on('click.btn-click', function (e) {
 				e.preventDefault();
 				self.panelClose();
 			});
-			if (this.options.clickOutside) {
-				this.activeClickOutside();
-			}
+
 		},
 		positionPanel: function () {
 			var self = this;
@@ -76,6 +75,9 @@ function initOpenPanel() {
 		panelOpen: function () {
 			var self = this;
 			self.holder.addClass(self.options.activeClass);
+			if (this.options.clickOutside) {
+				this.activeClickOutside();
+			}
 		},
 		panelClose: function () {
 			var self = this;
@@ -83,15 +85,21 @@ function initOpenPanel() {
 		},
 		activeClickOutside: function () {
 			var self = this;
-			$(document).on('click', function (e) {
+			var doc = $(document);
+			doc.on('click.doc-click', function (e) {
+				console.log('click');
 				var target = $(e.target);
 				if (target.closest(self.panel).length === 0 && target.closest(self.btn).length === 0 && !(target.hasClass('panel-btn'))) {
 					self.panelClose();
+					doc.off('click.doc-click');
 				}
 			})
 		},
-		destroy: function() {
+		destroy: function () {
 			var self = this;
+			this.btn.off('click.btn-click');
+			this.btnClose.off('click.btn-click');
+			this.panel.removeClass(self.y + ' ' + self.x + ' ' + 'animate-' + self.position);
 		}
 	};
 
