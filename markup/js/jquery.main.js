@@ -79,25 +79,24 @@ function initOpenPanel() {
 			}
 		},
 		panelClose: function () {
-			var self = this;
-			self.holder.removeClass(self.options.activeClass);
+			this.holder.removeClass(this.options.activeClass);
 		},
 		activeClickOutside: function () {
 			var self = this;
 			var doc = $(document);
 			doc.on('click.doc-click', function (e) {
 				var target = $(e.target);
-				if (target.closest(self.panel).length === 0 && target.closest(self.btn).length === 0 && !(target.hasClass('panel-btn'))) {
+				if (target.closest(self.panel).length === 0 && target.closest(self.btn).length === 0 && !(target.hasClass(self.options.btn.replace('.','')))) {
 					self.panelClose();
 					doc.off('click.doc-click');
 				}
 			})
 		},
 		destroy: function () {
-			var self = this;
 			this.btn.off('click.btn-click');
 			this.btnClose.off('click.btn-click');
-			this.panel.removeClass(self.y + ' ' + self.x + ' ' + 'animate-' + self.position);
+			$(document).off('click.doc-click');
+			this.panel.removeClass(this.y + ' ' + this.x + ' ' + 'animate-' + this.position);
 		}
 	};
 
