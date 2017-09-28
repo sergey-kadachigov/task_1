@@ -30,14 +30,13 @@ function initOpenPanel() {
 				this.attachEvents();
 				this.positionPanel();
 			}
-			console.log(this);
 		},
 		findElements: function () {
 			this.holder = $(this.options.holder);
 			this.btn = this.holder.find(this.options.btn);
 			this.btnClose = this.holder.find(this.options.btnClose);
 			this.panel = this.holder.find(this.options.panel);
-			this.positionOpt = JSON.parse(this.panel.data('options').replace(/'/g, '"')) || {
+			this.positionOpt = JSON.parse(this.panel.data('options')?this.panel.data('options').replace(/'/g, '"'):false) || {
 				x: this.options.x,
 				y: this.options.y,
 				position: this.options.position
@@ -87,7 +86,6 @@ function initOpenPanel() {
 			var self = this;
 			var doc = $(document);
 			doc.on('click.doc-click', function (e) {
-				console.log('click');
 				var target = $(e.target);
 				if (target.closest(self.panel).length === 0 && target.closest(self.btn).length === 0 && !(target.hasClass('panel-btn'))) {
 					self.panelClose();
